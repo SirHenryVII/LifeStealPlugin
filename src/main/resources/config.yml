@@ -1,0 +1,14 @@
+DefaultHealth: 16.0
+HealthLostOnDeath: 2.0
+HealthGainedOnKill: 2.0
+LoseLifeIfNotKilledByPlayer: true
+HeartRecipe:
+  Slot0: DIAMOND_BLOCK
+  Slot1: OBSIDIAN
+  Slot2: DIAMOND_BLOCK
+  Slot3: GOLD_BLOCK
+  Slot4: NETHERITE_INGOT
+  Slot5: GOLD_BLOCK
+  Slot6: DIAMOND_BLOCK
+  Slot7: OBSIDIAN
+  Slot8: DIAMOND_BLOCK
