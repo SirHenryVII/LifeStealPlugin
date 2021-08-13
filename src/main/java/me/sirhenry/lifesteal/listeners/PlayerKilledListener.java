@@ -55,6 +55,11 @@ public class PlayerKilledListener implements Listener {
 
                 }
 
+                if(victim.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() <= 0.0) {
+
+                    victim.setGameMode(GameMode.SPECTATOR);
+
+                }
 
             }
         }
