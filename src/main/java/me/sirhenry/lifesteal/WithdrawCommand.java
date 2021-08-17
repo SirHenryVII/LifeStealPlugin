@@ -53,6 +53,11 @@ public class WithdrawCommand implements CommandExecutor {
 
             }
 
+            if (Integer.parseInt(args[0]) <= 0) {
+                sender.sendMessage(ChatColor.RED + "You Cannot put Negative Numbers.");
+                return false;
+            }
+
             if(((Player) sender).getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() <= Integer.parseInt(args[0]) * 2) return false;
 
             if(((Player) sender).getGameMode() == GameMode.SURVIVAL) {
