@@ -25,7 +25,7 @@ public class PlayerKilledListener implements Listener {
         if(victim.getKiller() instanceof Player) {
 
             Player killer = victim.getKiller();
-            if(killer == victim) {
+            if(killer != victim) {
 
                 double vHealth = victim.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
                 double kHealth = killer.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
