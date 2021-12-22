@@ -64,13 +64,15 @@ public class WithdrawCommand implements CommandExecutor {
             Player player = ((Player) sender);
             Player other = Bukkit.getServer().getPlayer(args[1]);
             
-            double healthCheck = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+            double healthCheckPlayer = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+            double healthCheckOther =  other.getAttribute(Atttribute.GENERIC_MAX_HEALTH).getBaseValue();
             double maxHealth = plugin.getConfig().getDouble("MaxHealth");
             // 100 - 95 = 5
             // 5 + (7*2) = 19
-            double calc  = maxHealth - healthCheck;
+            double calc  = maxHealth - healthCheckPlayer;
+            double otherCalc = maxHealth - healthCheckOther;
             double playerRem = calc - (Integer.parseInt(args[0]) * 2);
-            double otherRem = calc + (Integer.parseInt(args[0]) * 2);
+            double otherRem = otherCalc + (Integer.parseInt(args[0]) * 2);
             if(maxHealth != 0) {
             	if(playerRem <= 0 || otherRem >= 100) {
             		sender.sendMessage(ChatColor.RED + "The hearts you give will breach the max hearts allocated.");
