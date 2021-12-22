@@ -8,12 +8,14 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Objects;
 
 public class WithdrawCommand implements CommandExecutor {
+	Plugin plugin = LifeSteal.getPlugin(LifeSteal.class);
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(!(sender instanceof Player)) {
@@ -57,9 +59,19 @@ public class WithdrawCommand implements CommandExecutor {
                 sender.sendMessage(ChatColor.RED + "You Cannot put Negative Numbers.");
                 return false;
             }
-
             if(((Player) sender).getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() <= Integer.parseInt(args[0]) * 2) return false;
 
+            Player player = ((Player) sender);
+            double healthCheck = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+            double maxHealth = plugin.getConfig().getDouble("MaxHealth");
+            double calc  = maxHealth - healthCheck;
+            double rem = calc - Integer.parseInt(args[0]) * 2;
+            
+            if(maxHealth != 0 && rem <= 0) {
+            	sender.sendMessage(ChatColor.RED + "You haven't got enough hearts to give as you will breach the maximum hearts set.");
+            	return false;
+            }
+            
             if(((Player) sender).getGameMode() == GameMode.SURVIVAL) {
 
                 Bukkit.getServer().getPlayer(args[1]).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(Bukkit.getServer().getPlayer(args[1]).getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() + Integer.parseInt(args[0]) * 2);
