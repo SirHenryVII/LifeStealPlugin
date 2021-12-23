@@ -66,12 +66,10 @@ public class WithdrawCommand implements CommandExecutor {
             
             double healthCheckPlayer = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
             double healthCheckOther =  other.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
-            double maxHealth = plugin.getConfig().getDouble("MaxHealth");
-            // 100 - 95 = 5
-            // 5 + (7*2) = 19
+            double maxHealth = plugin.getConfig().getDouble("MaxHearts");
             double otherRem = healthCheckOther + (Integer.parseInt(args[0]) * 2);
-            if(maxHealth != 0) {
-            	if(otherRem >= 100) {
+            if(maxHealth != 0.0) {
+            	if(otherRem > maxHealth) {
             		sender.sendMessage(ChatColor.RED + "The hearts you give will breach the max hearts allocated.");
             		return false;
             	}
