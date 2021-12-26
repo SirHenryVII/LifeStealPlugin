@@ -2,6 +2,7 @@ DefaultHealth: 16.0
 HealthLostOnDeath: 2.0
 HealthGainedOnKill: 2.0
 LoseLifeIfNotKilledByPlayer: true
+MaxHealth: 100.0
 HeartRecipe:
   Slot0: DIAMOND_BLOCK
   Slot1: OBSIDIAN
