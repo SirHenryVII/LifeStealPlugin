@@ -26,6 +26,7 @@ public final class LifeSteal extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
         getCommand("withdraw").setExecutor(new WithdrawCommand());
+        getCommand("smpreset").setExecutor(new ResetCommand());
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
         Bukkit.addRecipe(heartRecipe());
