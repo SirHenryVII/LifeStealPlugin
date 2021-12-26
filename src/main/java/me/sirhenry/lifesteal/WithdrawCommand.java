@@ -9,38 +9,24 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.Objects;
-
 public class WithdrawCommand implements CommandExecutor {
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+
         if(!(sender instanceof Player)) {
             System.out.println("The Console Cannot Run This Command");
-            return false;
+            return true;
         }
+
         else if (args.length != 2) {
 
             sender.sendMessage(ChatColor.RED + "Usage : /withdraw 10 Player");
-            return false;
+            return true;
 
         }
+
         else {
-            boolean check = false;
-            for(Player players : Bukkit.getOnlinePlayers()) {
 
-                if(players == sender) {
-                    check = true;
-                    break;
-                }
-
-            }
-            if(!check) {
-                sender.sendMessage("Usage : /withdraw 10 Player");
-                sender.sendMessage("Player Name is Not Valid");
-                return false;
-            }
 
             try {
 
@@ -48,17 +34,30 @@ public class WithdrawCommand implements CommandExecutor {
 
             }catch(NumberFormatException e) {
 
-                sender.sendMessage(ChatColor.RED + "Usage : /withdraw 10 Player");
-                return false;
+                sender.sendMessage(ChatColor.RED + "Usage: /withdraw 10 Player");
+                return true;
 
             }
 
             if (Integer.parseInt(args[0]) <= 0) {
-                sender.sendMessage(ChatColor.RED + "You Cannot put Negative Numbers.");
-                return false;
+                sender.sendMessage(ChatColor.RED + "You Cannot use Negative Numbers");
+                return true;
             }
 
-            if(((Player) sender).getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() <= Integer.parseInt(args[0]) * 2) return false;
+            if(((Player) sender).getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() <= Integer.parseInt(args[0]) / 2 + 2) {
+                sender.sendMessage(ChatColor.RED + "You do not have Enough Hearts to Perform this Action");
+                return true;
+            }
+
+            try{
+                Bukkit.getServer().getPlayer(args[1]);
+            }
+            catch(Exception ex) {
+                sender.sendMessage(ChatColor.RED + "Usage: /withdraw 10 Player");
+                sender.sendMessage(ChatColor.RED + "This Player is Not Online");
+                return true;
+            }
+
 
             if(((Player) sender).getGameMode() == GameMode.SURVIVAL) {
 
@@ -73,8 +72,7 @@ public class WithdrawCommand implements CommandExecutor {
                 sender.sendMessage(ChatColor.RED + "You Can Only Perform This Command While in Survival Mode");
 
             }
-            return false;
+            return true;
         }
-
     }
 }

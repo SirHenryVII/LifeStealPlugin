@@ -7,13 +7,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,11 +25,9 @@ public final class LifeSteal extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
         getCommand("withdraw").setExecutor(new WithdrawCommand());
-        getConfig().options().copyDefaults(true);
         saveDefaultConfig();
         Bukkit.addRecipe(heartRecipe());
 
-        Bukkit.broadcastMessage(ChatColor.GREEN + "Life Steal Plugin has Finished Loading!");
 
     }
 
