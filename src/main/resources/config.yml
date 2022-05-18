@@ -1,6 +1,6 @@
-DefaultHealth: 16.0
-HealthLostOnDeath: 2.0
-HealthGainedOnKill: 2.0
+DefaultHealth: 10.0
+HealthLostOnDeath: 1.0
+HealthGainedOnKill: 1.0
 LoseLifeIfNotKilledByPlayer: true
 HeartRecipe:
   Slot0: DIAMOND_BLOCK
