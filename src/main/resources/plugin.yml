@@ -3,8 +3,10 @@ version: ${project.version}
 main: me.sirhenry.lifesteal.LifeSteal
 api-version: 1.16
 authors: [ SirHenry ]
-description: Allows Players to Steal Hearts from Eachother by Killing.
+description: Allows Players to Steal Hearts from Each Other by Killing.
 website: https://youtube.com/sirhenry
 commands:
   withdraw:
     description: Allows you to give your hearts to other people
+  smpreset:
+    description: Will reset all of the Hearts on the server.

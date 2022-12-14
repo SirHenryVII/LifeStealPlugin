@@ -15,25 +15,36 @@ import java.io.IOException;
 
 public class ResetCommand implements CommandExecutor {
 	Plugin plugin = LifeSteal.getPlugin(LifeSteal.class);
-	
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) 
-	{	
-		Player me = ((Player) sender);
-		if(!me.isOp()) {
-			return false;
+
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
+	{
+		Player p = ((Player) sender);
+
+		//Check if player has permission
+		if(!p.hasPermission("lifesteal.admin")) {
+			p.sendMessage(ChatColor.RED + "You Do Not Have Permission to Use This Command\nPermission Required: \"lifesteal.admin\"");
+			return true;
 		}
-		
+
+		//Check if NBT Api is installed
+		if(!Bukkit.getPluginManager().isPluginEnabled("NBTAPI")){
+			p.sendMessage(ChatColor.RED + "This Command can Only be Used if \"NBT Api\" (plugin) is Installed\n\"NBT Api\" can be Found here: https://www.curseforge.com/minecraft/bukkit-plugins/nbt-api/files");
+		}
+
+		//for every player
 		for(OfflinePlayer player : Bukkit.getServer().getOfflinePlayers()){
 			String path = Bukkit.getWorldContainer() + File.separator + "lifesteal" + File.separator + "playerdata" + File.separator;
 			String f = player.getUniqueId() + ".dat";
 			NBTFile nbt;
-			
+
+			//if player is online, set hearts to default
 			if(player.isOnline()) {
 				Player onlinePlayer = (Player) player;
 				onlinePlayer.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(plugin.getConfig().getDouble("DefaultHealth"));
 				continue;
 			}
 
+			//If player is not online, set their heart value to default using item nbt api
 			try {
 				nbt = new NBTFile(new File(path + f));
 				NBTCompoundList list = nbt.getCompoundList("Attributes");
@@ -49,11 +60,11 @@ public class ResetCommand implements CommandExecutor {
 					}
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		Bukkit.broadcastMessage("Season " + args[0] + ": '" + ChatColor.RED + ChatColor.BOLD + args[1] + ChatColor.RESET + "' has begun!");
+		//send chat message
+		Bukkit.broadcastMessage(ChatColor.BOLD + "SMP Reset Complete!");
 		return true;
 	}
 }

@@ -21,59 +21,51 @@ public class PlayerKilledListener implements Listener {
     @EventHandler
     public void onPlayerKilled(PlayerDeathEvent e) {
 
-
+        //set "global" variables
         Player victim = e.getEntity();
+        Player killer = victim.getKiller();
+        double vHealth = victim.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+        double kHealth = killer.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
 
+        //if the player was killed by another player
         if (victim.getKiller() != null && victim.getKiller() != victim) {
 
-            Player killer = victim.getKiller();
-            double vHealth = victim.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
-            double kHealth = killer.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
-
+            //add and subtract health
             victim.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(vHealth - plugin.getConfig().getDouble("HealthLostOnDeath"));
             killer.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(kHealth + plugin.getConfig().getDouble("HealthGainedOnKill"));
 
+            //Take a player out of game if necessary
             if (victim.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() <= 0.0) {
-
                 victim.setGameMode(GameMode.SPECTATOR);
-                Bukkit.broadcastMessage(ChatColor.RED + "[LifeSteal]: " + victim.getName());
+                Bukkit.broadcastMessage(ChatColor.RED + " " + victim.getName() + " has Lost all their Hearts!");
+                if (plugin.getConfig().getBoolean("BanIfLoseAllHearts")) {Bukkit.getBanList(BanList.Type.NAME).addBan(victim.getName(), "Lost All Their Lives", null, null);}
+            }
 
+            //Custom Death Message
+            if (plugin.getConfig().getBoolean("DisplayCustomDeathMessage")) {e.setDeathMessage(ChatColor.LIGHT_PURPLE + victim.getDisplayName() + ChatColor.GOLD +
+                    " (" + victim.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() + ")" + ChatColor.GRAY + " Was Killed By " + ChatColor.LIGHT_PURPLE + killer.getDisplayName()
+                    + ChatColor.GOLD + " (" + killer.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() + ")");
+            }
+
+        //if player was killed, but not by another player
+        } else if (victim.getKiller() != victim && plugin.getConfig().getBoolean("LoseLifeIfNotKilledByPlayer")) {
+
+            //make victim lose health
+            victim.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(vHealth - plugin.getConfig().getDouble("HealthLostOnDeath"));
+
+            //If player has no hearts left
+            if (victim.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() <= 0.0) {
+                victim.setGameMode(GameMode.SPECTATOR);
+
+                //Ban player if option is true in config
                 if (plugin.getConfig().getBoolean("BanIfLoseAllHearts")) {
                     Bukkit.getBanList(BanList.Type.NAME).addBan(victim.getName(), "Lost All Their Lives", null, null);
+                    victim.kickPlayer(ChatColor.RED + "You have Lost all of your Lives");
+
                 }
 
             }
 
-
-            if (plugin.getConfig().getBoolean("DisplayCustomDeathMessage")) {
-                e.setDeathMessage(ChatColor.LIGHT_PURPLE + victim.getDisplayName() + ChatColor.GOLD + " (" + victim.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() + ")" + ChatColor.GRAY + " Was Killed By " + ChatColor.LIGHT_PURPLE + killer.getDisplayName() + ChatColor.GOLD + " (" + killer.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() + ")");
-
-            }
-
-        } else if (victim.getKiller() != victim) {
-
-            if (plugin.getConfig().getBoolean("LoseLifeIfNotKilledByPlayer")) {
-                double vHealth = victim.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
-
-                victim.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(vHealth - plugin.getConfig().getDouble("HealthLostOnDeath"));
-
-                if (victim.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() <= 0.0) {
-
-                    victim.setGameMode(GameMode.SPECTATOR);
-
-                }
-
-                if (victim.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() <= 0.0) {
-
-                    victim.setGameMode(GameMode.SPECTATOR);
-
-                    if (plugin.getConfig().getBoolean("BanIfLoseAllHearts")) {
-                        Bukkit.getBanList(BanList.Type.NAME).addBan(victim.getName(), "Lost All Their Lives", null, null);
-
-                    }
-
-                }
-            }
 
         }
 

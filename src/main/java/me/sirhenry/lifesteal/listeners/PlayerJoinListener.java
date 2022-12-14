@@ -15,13 +15,8 @@ public class PlayerJoinListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent e){
 
         Player player = e.getPlayer();
-
-        if(!player.hasPlayedBefore()) {
-
-            player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(plugin.getConfig().getDouble("DefaultHealth"));
-
-        }
-
+        //Set player to default health if they have never played before
+        if(!player.hasPlayedBefore()) {player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(plugin.getConfig().getDouble("DefaultHealth"));}
     }
 
 }

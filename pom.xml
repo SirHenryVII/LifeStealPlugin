@@ -6,12 +6,12 @@
 
     <groupId>me.SirHenry</groupId>
     <artifactId>LifeSteal</artifactId>
-    <version>0.1</version>
+    <version>1.2</version>
     <packaging>jar</packaging>
 
     <name>LifeSteal</name>
 
-    <description>Allows Players to Steal Hearts from Eachother by Killing.</description>
+    <description>Allows Players to Steal Hearts from Each Other by Killing.</description>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -81,10 +81,10 @@
             <version>1.16.5-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-		<dependency>
-		  <groupId>de.tr7zw</groupId>
-		  <artifactId>item-nbt-api-plugin</artifactId>
-		  <version>2.9.0-SNAPSHOT</version>
-		</dependency>
+        <dependency>
+            <groupId>de.tr7zw</groupId>
+            <artifactId>item-nbt-api-plugin</artifactId>
+            <version>2.9.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>

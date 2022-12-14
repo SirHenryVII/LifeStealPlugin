@@ -30,7 +30,6 @@ public final class LifeSteal extends JavaPlugin {
         saveDefaultConfig();
         Bukkit.addRecipe(heartRecipe());
 
-
     }
 
     @Override
@@ -38,6 +37,7 @@ public final class LifeSteal extends JavaPlugin {
         // Plugin shutdown logic
     }
 
+    //Heart Recipe
     public ShapedRecipe heartRecipe() {
 
         ItemStack item = new ItemStack(Material.NETHER_STAR, 1);
@@ -54,7 +54,7 @@ public final class LifeSteal extends JavaPlugin {
 
         sr.shape("ABC", "DEF", "GHI");
 
-        char Alphabet[] = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'};
+        char[] Alphabet = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'};
 
         for(int i = 0; i < 9; i++) sr.setIngredient(Alphabet[i], Material.valueOf((String) getConfig().get("HeartRecipe.Slot" + i)));
 
