@@ -5,6 +5,8 @@ LoseLifeIfNotKilledByPlayer: false
 BanIfLoseAllHearts: false
 DisplayCustomDeathMessage: true
 MinHealth: 0
+LoseLifeIfNotKilledByPlayer: true
+MaxHealth: 40.0
 HeartRecipe:
   Slot0: DIAMOND_BLOCK
   Slot1: OBSIDIAN

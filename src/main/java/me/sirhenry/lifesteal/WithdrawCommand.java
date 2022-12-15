@@ -8,11 +8,14 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 public class WithdrawCommand implements CommandExecutor {
 
     int HeartNum;
     Player Receiver;
+
+	Plugin plugin = LifeSteal.getPlugin(LifeSteal.class);
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -59,6 +62,63 @@ public class WithdrawCommand implements CommandExecutor {
             sender.sendMessage(ChatColor.RED + "This Player is Not Online");
             return true;
         }
+        else {
+            boolean check = false;
+            for(Player players : Bukkit.getOnlinePlayers()) {
+
+                if(players == sender) {
+                    check = true;
+                    break;
+                }
+
+            }
+            if(!check) {
+                sender.sendMessage("Usage : /withdraw 10 Player");
+                sender.sendMessage("Player Name is Not Valid");
+                return false;
+            }
+
+            try {
+
+                Integer.parseInt(args[0]);
+
+            }catch(NumberFormatException e) {
+
+                sender.sendMessage(ChatColor.RED + "Usage : /withdraw 10 Player");
+                return false;
+
+            }
+
+            if (Integer.parseInt(args[0]) <= 0) {
+                sender.sendMessage(ChatColor.RED + "You Cannot put Negative Numbers.");
+                return false;
+            }
+            if(((Player) sender).getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() <= Integer.parseInt(args[0]) * 2) return false;
+
+            Player player = ((Player) sender);
+            Player other = Bukkit.getServer().getPlayer(args[1]);
+            
+            double healthCheckPlayer = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+            double healthCheckOther =  other.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+            double maxHealth = plugin.getConfig().getDouble("MaxHearts");
+            double otherRem = healthCheckOther + (Integer.parseInt(args[0]) * 2);
+            if(maxHealth != 0.0) {
+            	if(otherRem > maxHealth) {
+            		sender.sendMessage(ChatColor.RED + "The hearts you give will breach the max hearts allocated.");
+            		return false;
+            	}
+            }
+            
+            if(((Player) sender).getGameMode() == GameMode.SURVIVAL) {
+
+                Bukkit.getServer().getPlayer(args[1]).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(Bukkit.getServer().getPlayer(args[1]).getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() + Integer.parseInt(args[0]) * 2);
+                ((Player) sender).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(((Player) sender).getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() - Integer.parseInt(args[0]) * 2);
+
+                sender.sendMessage(ChatColor.GOLD + "You Gave " + Bukkit.getServer().getPlayer(args[1]).getDisplayName() + " " + args[0] + " Hearts!");
+                Bukkit.getServer().getPlayer(args[1]).sendMessage(ChatColor.GOLD + ((Player) sender).getDisplayName() + " Gave you " + args[0] + " Hearts!");
+            }
+            else {
+
 
         //add and subtract hearts
         ((Player) sender).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(((Player) sender).getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() - HeartNum);
