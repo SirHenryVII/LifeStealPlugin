@@ -32,7 +32,6 @@ public class WithdrawCommand implements CommandExecutor {
         }
         //check if correct number of args are inputted
         else if (args.length != 2) {
-
             sender.sendMessage(ChatColor.RED + "Usage : /withdraw 10 Player");
             return true;
         }
@@ -45,7 +44,7 @@ public class WithdrawCommand implements CommandExecutor {
         }
         //check if player used negative numbers
         if (Integer.parseInt(args[0]) <= 0) {
-            sender.sendMessage(ChatColor.RED + "You Cannot use Negative Numbers");
+            sender.sendMessage(ChatColor.RED + "You Cannot use 0 or Negative Numbers");
             return true;
         }
         //make sure player can't kill themselves
@@ -62,72 +61,36 @@ public class WithdrawCommand implements CommandExecutor {
             sender.sendMessage(ChatColor.RED + "This Player is Not Online");
             return true;
         }
+
+        //Check if this action Violates Max Hearts
+        double healthReceiver =  Receiver.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+        double maxHealth = plugin.getConfig().getDouble("MaxHearts");
+        if(maxHealth != 0.0) {
+            if(healthReceiver + (Integer.parseInt(args[0]) * 2) > maxHealth) {
+                sender.sendMessage(ChatColor.RED + "The Number of Hearts you tried to Give is greater than the Max Hearts Allowed on this Server.");
+                return false;
+            }
+        }
+
+        if(((Player) sender).getGameMode() == GameMode.SURVIVAL) {
+
+            Bukkit.getServer().getPlayer(args[1]).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(Bukkit.getServer().getPlayer(args[1]).getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() + Integer.parseInt(args[0]) * 2);
+            ((Player) sender).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(((Player) sender).getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() - Integer.parseInt(args[0]) * 2);
+
+            sender.sendMessage(ChatColor.GOLD + "You Gave " + Bukkit.getServer().getPlayer(args[1]).getDisplayName() + " " + args[0] + " Hearts!");
+            Bukkit.getServer().getPlayer(args[1]).sendMessage(ChatColor.GOLD + ((Player) sender).getDisplayName() + " Gave you " + args[0] + " Hearts!");
+        }
         else {
-            boolean check = false;
-            for(Player players : Bukkit.getOnlinePlayers()) {
+            //add and subtract hearts
+            ((Player) sender).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(((Player) sender).getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() - HeartNum);
+            Receiver.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(Receiver.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() + HeartNum);
 
-                if(players == sender) {
-                    check = true;
-                    break;
-                }
+            //sent chat messages
+            sender.sendMessage(ChatColor.GOLD + "You Gave " + Receiver.getDisplayName() + " " + args[0] + " Hearts!");
+            Receiver.sendMessage(ChatColor.GOLD + ((Player) sender).getDisplayName() + " Gave you " + args[0] + " Hearts!");
 
-            }
-            if(!check) {
-                sender.sendMessage("Usage : /withdraw 10 Player");
-                sender.sendMessage("Player Name is Not Valid");
-                return false;
-            }
-
-            try {
-
-                Integer.parseInt(args[0]);
-
-            }catch(NumberFormatException e) {
-
-                sender.sendMessage(ChatColor.RED + "Usage : /withdraw 10 Player");
-                return false;
-
-            }
-
-            if (Integer.parseInt(args[0]) <= 0) {
-                sender.sendMessage(ChatColor.RED + "You Cannot put Negative Numbers.");
-                return false;
-            }
-            if(((Player) sender).getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() <= Integer.parseInt(args[0]) * 2) return false;
-
-            Player player = ((Player) sender);
-            Player other = Bukkit.getServer().getPlayer(args[1]);
-            
-            double healthCheckPlayer = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
-            double healthCheckOther =  other.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
-            double maxHealth = plugin.getConfig().getDouble("MaxHearts");
-            double otherRem = healthCheckOther + (Integer.parseInt(args[0]) * 2);
-            if(maxHealth != 0.0) {
-            	if(otherRem > maxHealth) {
-            		sender.sendMessage(ChatColor.RED + "The hearts you give will breach the max hearts allocated.");
-            		return false;
-            	}
-            }
-            
-            if(((Player) sender).getGameMode() == GameMode.SURVIVAL) {
-
-                Bukkit.getServer().getPlayer(args[1]).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(Bukkit.getServer().getPlayer(args[1]).getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() + Integer.parseInt(args[0]) * 2);
-                ((Player) sender).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(((Player) sender).getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() - Integer.parseInt(args[0]) * 2);
-
-                sender.sendMessage(ChatColor.GOLD + "You Gave " + Bukkit.getServer().getPlayer(args[1]).getDisplayName() + " " + args[0] + " Hearts!");
-                Bukkit.getServer().getPlayer(args[1]).sendMessage(ChatColor.GOLD + ((Player) sender).getDisplayName() + " Gave you " + args[0] + " Hearts!");
-            }
-            else {
-
-
-        //add and subtract hearts
-        ((Player) sender).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(((Player) sender).getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() - HeartNum);
-        Receiver.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(Receiver.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() + HeartNum);
-
-        //sent chat messages
-        sender.sendMessage(ChatColor.GOLD + "You Gave " + Receiver.getDisplayName() + " " + args[0] + " Hearts!");
-        Receiver.sendMessage(ChatColor.GOLD + ((Player) sender).getDisplayName() + " Gave you " + args[0] + " Hearts!");
-
+            return true;
+        }
         return true;
     }
 }
