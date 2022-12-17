@@ -30,6 +30,7 @@ public class ReviveTotemGui {
             ItemStack headTemp = new ItemStack(Material.PLAYER_HEAD);
             SkullMeta skullTemp = (SkullMeta) headTemp.getItemMeta();
             skullTemp.setOwningPlayer(Bukkit.getOfflinePlayers()[i]);
+            skullTemp.setDisplayName(ChatColor.BOLD + Bukkit.getOfflinePlayers()[i].getName());
             ArrayList<String> tempLore = new ArrayList<>();
             tempLore.add(ChatColor.RED + Bukkit.getOfflinePlayers()[i].getName());
             skullTemp.setLore(tempLore);
@@ -44,10 +45,21 @@ public class ReviveTotemGui {
     public void setPage(int p){
 
         if(p>Pages || p<1){return;}
+        ItemStack[] tempPage = new ItemStack[27];
+        ItemStack greenGlass = new ItemStack(Material.GREEN_STAINED_GLASS_PANE, 1);
+        ItemStack signBack = new ItemStack(Material.OAK_SIGN, 1);
+        signBack.getItemMeta().setDisplayName(ChatColor.BOLD + "<-- Back");
+        ItemStack signForward = new ItemStack(Material.OAK_SIGN, 1);
+        signForward.getItemMeta().setDisplayName(ChatColor.BOLD + "Forward -->");
+        tempPage[0] = signBack;
+        tempPage[8] = signForward;
+        for(int i = 1; i<=8; i++) {tempPage[i] = greenGlass;}
 
-        for(int i = 0; i < 25; i++){
-
+        int j = 18*(p-1);
+        for(int i = 9; i <= 26; i++){
+            tempPage[i] = HeadList[j];
+            j++;
         }
-
+        GUI.setContents(tempPage);
     }
 }

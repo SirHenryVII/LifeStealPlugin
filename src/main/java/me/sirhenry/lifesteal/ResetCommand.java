@@ -12,6 +12,7 @@ import org.bukkit.plugin.Plugin;
 import de.tr7zw.nbtapi.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class ResetCommand implements CommandExecutor {
 	Plugin plugin = LifeSteal.getPlugin(LifeSteal.class);
@@ -28,12 +29,17 @@ public class ResetCommand implements CommandExecutor {
 
 		//Check if NBT Api is installed
 		if(!Bukkit.getPluginManager().isPluginEnabled("NBTAPI")){
-			p.sendMessage(ChatColor.RED + "This Command can Only be Used if \"NBT Api\" (plugin) is Installed\n\"NBT Api\" can be Found here: https://www.curseforge.com/minecraft/bukkit-plugins/nbt-api/files");
+			if(!(sender instanceof Player)) {p.sendMessage(ChatColor.RED + "This Command can Only be Used if \"NBT Api\" (plugin) is Installed\n\"NBT Api\" can be Found here: https://www.curseforge.com/minecraft/bukkit-plugins/nbt-api/files");}
+			else{System.out.println("This Command can Only be Used if \"NBT Api\" (plugin) is Installed\n\"NBT Api\" can be Found here: https://www.curseforge.com/minecraft/bukkit-plugins/nbt-api/files");}
+			return true;
 		}
+		//Take people off Dead List
+		Data.get().set("dead", "");
+		Data.save();
 
 		//for every player
 		for(OfflinePlayer player : Bukkit.getServer().getOfflinePlayers()){
-			String path = Bukkit.getWorldContainer() + File.separator + "lifesteal" + File.separator + "playerdata" + File.separator;
+			String path = Bukkit.getWorldContainer() + File.separator + plugin.getServer().getWorlds().get(0).getName() + File.separator + "playerdata" + File.separator;
 			String f = player.getUniqueId() + ".dat";
 			NBTFile nbt;
 

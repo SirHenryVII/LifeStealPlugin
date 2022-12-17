@@ -21,12 +21,12 @@ public class PlayerInteractListener implements Listener {
             if(e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             	
             	double pHealth = e.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
-            	double maxHearts = plugin.getConfig().getDouble("MaxHearts");
+            	double maxHearts = plugin.getConfig().getDouble("MaxHealth");
             	
-            	if(maxHearts != 0 && pHealth < maxHearts) {            	
-            		e.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(e.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() + 2);
-            		e.getPlayer().getInventory().getItemInMainHand().setAmount(e.getPlayer().getInventory().getItemInMainHand().getAmount() - 1);
-            	}
+                if(pHealth + 2 > maxHearts) {e.getPlayer().sendMessage(ChatColor.RED + "This Action Violates the \"Max Hearts\" Parameter."); return;}
+
+                e.getPlayer().getInventory().getItemInMainHand().setAmount(e.getPlayer().getInventory().getItemInMainHand().getAmount() - 1);
+                e.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(e.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() + 2);
 
             }
 
