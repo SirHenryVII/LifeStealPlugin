@@ -1,6 +1,8 @@
 package me.sirhenry.lifesteal.listeners;
 
+import me.sirhenry.lifesteal.Data;
 import me.sirhenry.lifesteal.LifeSteal;
+import me.sirhenry.lifesteal.ReviveTotemGui;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -17,8 +19,9 @@ public class PlayerInteractListener implements Listener {
     @EventHandler
     public void PlayerInteract(PlayerInteractEvent e) {
 
-        if(e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.NETHER_STAR) && e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("§cHeart")) {
-            if(e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+        //Heart Item Interact
+        if(e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            if(e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.NETHER_STAR) && e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("§cHeart")) {
             	
             	double pHealth = e.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
             	double maxHearts = plugin.getConfig().getDouble("MaxHealth");
@@ -28,6 +31,10 @@ public class PlayerInteractListener implements Listener {
                 e.getPlayer().getInventory().getItemInMainHand().setAmount(e.getPlayer().getInventory().getItemInMainHand().getAmount() - 1);
                 e.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(e.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() + 2);
 
+            }
+            //Revive Totem Interact
+            else if(e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.TOTEM_OF_UNDYING) && e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("§aRevive Totem")){
+                if(!(Data.get().getConfigurationSection("dead") == null)){ReviveTotemGui.setPage(1, e.getPlayer());}
             }
 
         }

@@ -1,5 +1,4 @@
 DefaultHealth: 20.0
-HealthLostOnDeath: 2.0
 HealthGainedOnKill: 2.0
 LoseLifeIfNotKilledByPlayer: false
 BanIfLoseAllLives: false
@@ -14,3 +13,13 @@ HeartRecipe:
   Slot6: DIAMOND_BLOCK
   Slot7: OBSIDIAN
   Slot8: DIAMOND_BLOCK
+ReviveTotemRecipe:
+  Slot0: TOTEM_OF_UNDYING
+  Slot1: DIAMOND_BLOCK
+  Slot2: TOTEM_OF_UNDYING
+  Slot3: NETHERITE_INGOT
+  Slot4: EMERALD
+  Slot5: NETHERITE_INGOT
+  Slot6: TOTEM_OF_UNDYING
+  Slot7: DIAMOND_BLOCK
+  Slot8: TOTEM_OF_UNDYING

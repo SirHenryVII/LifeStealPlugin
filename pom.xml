@@ -81,10 +81,5 @@
             <version>1.19.3-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>de.tr7zw</groupId>
-            <artifactId>item-nbt-api-plugin</artifactId>
-            <version>2.11.1</version>
-        </dependency>
     </dependencies>
 </project>
