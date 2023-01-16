@@ -28,11 +28,12 @@ public class ResetCommand implements CommandExecutor {
 			p.sendMessage(ChatColor.RED + "You Do Not Have Permission to Use This Command. Permission Required: \"lifesteal.admin\"");
 			return true;
 		}
-		//Check if 2 args
+		//Check if 1 arg
 		if(args.length != 1){
 			p.sendMessage(ChatColor.RED + "Usage: /smpreset");
 			return true;
 		}
+		//if Confirm
 		if(args[0].equalsIgnoreCase("confirm")){
 			SmpReset();
 			return true;
@@ -49,30 +50,29 @@ public class ResetCommand implements CommandExecutor {
 	private void SmpReset() {
 
 		//Revive Dead Players
-		for (String key : Data.get().getConfigurationSection("dead").getKeys(false)) {
-			UUID uuid = UUID.fromString(key);
+		for (OfflinePlayer p : Bukkit.getOfflinePlayers()) {
+			UUID uuid = p.getUniqueId();
+			//If player online reset them
 			if (Bukkit.getPlayer(uuid) != null) {
 				Player player = Bukkit.getPlayer(uuid);
 				player.setGameMode(GameMode.SURVIVAL);
 				player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(plugin.getConfig().getDouble("DefaultHealth"));
-				if (player.getBedSpawnLocation() == null) {
-					player.teleport(player.getWorld().getSpawnLocation());
-				} else {
-					player.teleport(player.getBedSpawnLocation());
+				//If player is fully dead tp them
+				if(Data.get().contains("dead." + p.getUniqueId())){
+					if (player.getBedSpawnLocation() == null) {
+						player.teleport(player.getWorld().getSpawnLocation());
+					} else {
+						player.teleport(player.getBedSpawnLocation());
+					}
 				}
-			} else {
+			//If player is not online, put them on revive list if they are not already
+			} else if(Data.get().getConfigurationSection("revive").contains(p.getUniqueId().toString())){
 				Data.get().set("revive." + uuid, "");
 			}
 
 		}
 
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			if (Data.get().getConfigurationSection("dead").contains(player.getUniqueId().toString())) {
-
-			}
-		}
-
-		//Take people off Dead List
+		//Clear Dead List
 		Data.get().set("dead", null);
 		Data.save();
 

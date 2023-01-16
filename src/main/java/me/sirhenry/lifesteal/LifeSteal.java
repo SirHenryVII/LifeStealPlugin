@@ -50,7 +50,13 @@ public final class LifeSteal extends JavaPlugin {
 
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
+
         Data.setup();
+        Data.get().addDefault("revive", " ");
+        Data.get().addDefault("dead", " ");
+        Data.get().options().copyDefaults(true);
+        Data.save();
+
         Bukkit.addRecipe(HeartItem.getHeartRecipe());
         Bukkit.addRecipe(ReviveTotemItem.getReviveTotemRecipe());
 

@@ -21,24 +21,22 @@ public class PlayerJoinListener implements Listener {
 
         Player player = e.getPlayer();
         //Set player to default health if they have never played before
-        if(!player.hasPlayedBefore()) {player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(plugin.getConfig().getDouble("DefaultHealth"));}
+        if(!player.hasPlayedBefore()) {
+            player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(plugin.getConfig().getDouble("DefaultHealth"));
+            return;
+        }
 
-        //Revive if Necessary
-        try{
-            for(String uuid : Data.get().getConfigurationSection("revive").getKeys(false)){
-                if(UUID.fromString(uuid).equals(e.getPlayer().getUniqueId())){
-                    e.getPlayer().setGameMode(GameMode.SURVIVAL);
-                    e.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(plugin.getConfig().getDouble("DefaultHealth"));
-                    if(e.getPlayer().getBedSpawnLocation() == null){
-                        e.getPlayer().teleport(e.getPlayer().getWorld().getSpawnLocation());
-                    }
-                    else{
-                        e.getPlayer().teleport(e.getPlayer().getBedSpawnLocation());
-                    }
-                    Data.get().set("revive." + e.getPlayer().getUniqueId(), null);
-                }
+        if(Data.get().getConfigurationSection("revive").contains(player.getUniqueId().toString())){
+            player.setGameMode(GameMode.SURVIVAL);
+            player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(plugin.getConfig().getDouble("DefaultHealth"));
+            if(player.getBedSpawnLocation() == null){
+                e.getPlayer().teleport(e.getPlayer().getWorld().getSpawnLocation());
             }
-        }catch(Exception ignored){}
+            else{
+                e.getPlayer().teleport(e.getPlayer().getBedSpawnLocation());
+            }
+            Data.get().set("revive." + player.getUniqueId(), null);
+        }
 
     }
 
