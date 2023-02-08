@@ -2,9 +2,8 @@ package me.sirhenry.lifesteal.listeners;
 
 import me.sirhenry.lifesteal.Data;
 import me.sirhenry.lifesteal.LifeSteal;
-import me.sirhenry.lifesteal.ReviveTotemGui;
+import me.sirhenry.lifesteal.Util;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -35,12 +34,12 @@ public class GUIInteractListener implements Listener {
 
         //Check if they want to change page
         if(name.equals("<-- Back")){
-            ReviveTotemGui.setPage(Integer.parseInt(e.getInventory().getItem(4).getItemMeta().getDisplayName())-1, (Player)e.getView().getPlayer());
+            Util.setRevivePage(Integer.parseInt(e.getInventory().getItem(4).getItemMeta().getDisplayName())-1, (Player)e.getView().getPlayer());
             e.setCancelled(true);
             return;
         }
         else if(name.equals("Forward -->")){
-            ReviveTotemGui.setPage(Integer.parseInt(e.getInventory().getItem(4).getItemMeta().getDisplayName())+1, (Player)e.getView().getPlayer());
+            Util.setRevivePage(Integer.parseInt(e.getInventory().getItem(4).getItemMeta().getDisplayName())+1, (Player)e.getView().getPlayer());
             e.setCancelled(true);
             return;
         }

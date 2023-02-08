@@ -1,5 +1,8 @@
-package me.sirhenry.lifesteal;
+package me.sirhenry.lifesteal.commands;
 
+import me.sirhenry.lifesteal.Data;
+import me.sirhenry.lifesteal.LifeSteal;
+import me.sirhenry.lifesteal.Util;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -56,7 +59,7 @@ public class ResetCommand implements CommandExecutor {
 			if (Bukkit.getPlayer(uuid) != null) {
 				Player player = Bukkit.getPlayer(uuid);
 				player.setGameMode(GameMode.SURVIVAL);
-				player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(plugin.getConfig().getDouble("DefaultHealth"));
+				Util.setHearts(player, plugin.getConfig().getDouble("DefaultHealth"));
 				//If player is fully dead tp them
 				if(Data.get().contains("dead." + p.getUniqueId())){
 					if (player.getBedSpawnLocation() == null) {

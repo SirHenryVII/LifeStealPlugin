@@ -1,5 +1,7 @@
-package me.sirhenry.lifesteal;
+package me.sirhenry.lifesteal.commands;
 
+import me.sirhenry.lifesteal.LifeSteal;
+import me.sirhenry.lifesteal.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -22,13 +24,14 @@ public class WithdrawCommand implements CommandExecutor {
 
         int HeartNum;
         Player Receiver;
+        Player player;
         //check if console is running command
         if(!(sender instanceof Player)) {
             System.out.println("The Console Cannot Run This Command");
             return true;
         }
         //check if player has permissions
-        else if(!sender.hasPermission("lifesteal.withdraw") || !sender.hasPermission("lifesteal.admin")){
+        if(!sender.hasPermission("lifesteal.withdraw") || !sender.hasPermission("lifesteal.admin")){
             sender.sendMessage(ChatColor.RED + "You Do Not Have Permission to Use This Command\nPermission Required: \"lifesteal.withdraw\"");
             return true;
         }
@@ -58,25 +61,26 @@ public class WithdrawCommand implements CommandExecutor {
             sender.sendMessage(ChatColor.RED + "You Cannot use Negative Numbers");
             return true;
         }
+        player = (Player) sender;
         //make sure player can't kill themselves
-        if(((Player) sender).getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() - HeartNum < 2) {
+        if(Util.getHearts(player) - HeartNum < 2) {
             sender.sendMessage(ChatColor.RED + "You do not have Enough Hearts to Perform this Action");
             return true;
         }
         //make sure player doesn't violate max hearts
-        if(Receiver.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() + HeartNum > plugin.getConfig().getDouble("MaxHealth")) {
+        if(Util.getHearts(Receiver) + HeartNum > plugin.getConfig().getDouble("MaxHealth")) {
             sender.sendMessage(ChatColor.RED + "This Action Violates the \"Max Hearts\" Parameter.");
             return true;
         }
 
 
         //add and subtract hearts
-        ((Player) sender).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(((Player) sender).getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() - HeartNum);
-        Receiver.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(Receiver.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() + HeartNum);
+        Util.setHearts(player, Util.getHearts(player) - HeartNum);
+        Util.setHearts(Receiver, Util.getHearts(Receiver) + HeartNum);
 
         //sent chat messages
         sender.sendMessage(ChatColor.GREEN + "You Gave " + Receiver.getDisplayName() + " " + args[0] + " Hearts!");
-        Receiver.sendMessage(ChatColor.GREEN + ((Player) sender).getDisplayName() + " Gave you " + args[0] + " Hearts!");
+        Receiver.sendMessage(ChatColor.GREEN + player.getDisplayName() + " Gave you " + args[0] + " Hearts!");
         return true;
 
     }

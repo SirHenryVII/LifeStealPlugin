@@ -1,5 +1,6 @@
-package me.sirhenry.lifesteal;
+package me.sirhenry.lifesteal.items;
 
+import me.sirhenry.lifesteal.LifeSteal;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

@@ -1,7 +1,7 @@
 package me.sirhenry.lifesteal.listeners;
 
 import me.sirhenry.lifesteal.Data;
-import me.sirhenry.lifesteal.HeartItem;
+import me.sirhenry.lifesteal.items.HeartItem;
 import me.sirhenry.lifesteal.LifeSteal;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;

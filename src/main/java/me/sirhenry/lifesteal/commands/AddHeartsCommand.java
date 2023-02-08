@@ -1,5 +1,7 @@
-package me.sirhenry.lifesteal;
+package me.sirhenry.lifesteal.commands;
 
+import me.sirhenry.lifesteal.LifeSteal;
+import me.sirhenry.lifesteal.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
@@ -42,12 +44,12 @@ public class AddHeartsCommand implements CommandExecutor {
             return true;
         }
         //check if violates max health
-        if(Receiver.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() + HeartNum > plugin.getConfig().getDouble("MaxHealth")){
+        if(Util.getHearts(Receiver) + HeartNum > plugin.getConfig().getDouble("MaxHealth")){
             sender.sendMessage(ChatColor.RED + "This Action Violates the \"Max Hearts\" Parameter.");
             return true;
         }
 
-        Receiver.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(Receiver.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() + HeartNum);
+        Util.setHearts(Receiver, Util.getHearts(Receiver) + HeartNum);
 
         return true;
     }

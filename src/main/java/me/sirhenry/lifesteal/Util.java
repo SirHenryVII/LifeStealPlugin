@@ -3,21 +3,18 @@ package me.sirhenry.lifesteal;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.UUID;
 
-public class ReviveTotemGui {
-
-    public static void setPage(int page, Player player){
+public class Util {
+    public static void setRevivePage(int page, Player player){
 
         Inventory GUI = Bukkit.createInventory(player, 27, "Select a Player:");
         int Pages;
@@ -78,5 +75,13 @@ public class ReviveTotemGui {
 
         GUI.setContents(tempPage);
         player.openInventory(GUI);
+    }
+
+    public static double getHearts(Player player){
+        return player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+    }
+
+    public static void setHearts(Player player, double h){
+        player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(h);
     }
 }
