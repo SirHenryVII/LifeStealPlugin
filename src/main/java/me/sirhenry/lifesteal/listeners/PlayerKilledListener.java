@@ -1,6 +1,7 @@
 package me.sirhenry.lifesteal.listeners;
 
 import me.sirhenry.lifesteal.Data;
+import me.sirhenry.lifesteal.Util;
 import me.sirhenry.lifesteal.items.HeartItem;
 import me.sirhenry.lifesteal.LifeSteal;
 import org.bukkit.BanList;
@@ -23,31 +24,31 @@ public class PlayerKilledListener implements Listener {
 
         Player victim = e.getEntity();
         Player killer = victim.getKiller();
-        double vHealth = victim.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+        double vHealth = Util.getHearts(victim);
 
         if(victim.getKiller() != null && killer != victim) {
 
             //set vars
-            double kHealth = killer.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+            double kHealth = Util.getHearts(killer);
 
             //Make victim lose health
-            victim.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(vHealth - plugin.getConfig().getDouble("HealthGainedOnKill"));
+            Util.setHearts(victim, vHealth - plugin.getConfig().getDouble("HealthGainedOnKill"));
 
             //give killer health and drop heart item if required
             for(int i = 0; i < plugin.getConfig().getDouble("HealthGainedOnKill"); i += 2 ){
 
 
                 if(kHealth + i < plugin.getConfig().getDouble("MaxHealth")){
-                    killer.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(killer.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() + 2.0);
+                    Util.setHearts(killer, Util.getHearts(killer) + 2.0);
                     continue;
                 }
                 victim.getWorld().dropItemNaturally(victim.getLocation(), HeartItem.getItem());
             }
 
             //custom death message
-            e.setDeathMessage(ChatColor.LIGHT_PURPLE + victim.getDisplayName() + ChatColor.GOLD + " ("  + victim.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()
+            e.setDeathMessage(ChatColor.LIGHT_PURPLE + victim.getDisplayName() + ChatColor.GOLD + " ("  + Util.getHearts(victim)
                     + ")" + ChatColor.GRAY + " Was Killed By " + ChatColor.LIGHT_PURPLE + killer.getDisplayName() + ChatColor.GOLD + " ("  +
-                    killer.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() + ")");
+                    Util.getHearts(killer) + ")");
 
         }
 

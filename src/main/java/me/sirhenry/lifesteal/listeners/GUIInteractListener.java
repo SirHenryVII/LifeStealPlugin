@@ -65,6 +65,7 @@ public class GUIInteractListener implements Listener {
                 Bukkit.getPlayer(name).teleport(Bukkit.getPlayer(name).getBedSpawnLocation());
             }
         }
+        //else add to revive list
         else{
             Data.get().set("revive." + Bukkit.getOfflinePlayer(name).getUniqueId(), "");
         }

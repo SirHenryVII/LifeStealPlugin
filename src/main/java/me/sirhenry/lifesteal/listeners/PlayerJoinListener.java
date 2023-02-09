@@ -2,6 +2,7 @@ package me.sirhenry.lifesteal.listeners;
 
 import me.sirhenry.lifesteal.Data;
 import me.sirhenry.lifesteal.LifeSteal;
+import me.sirhenry.lifesteal.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.attribute.Attribute;
@@ -22,7 +23,7 @@ public class PlayerJoinListener implements Listener {
         Player player = e.getPlayer();
         //Set player to default health if they have never played before
         if(!player.hasPlayedBefore()) {
-            player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(plugin.getConfig().getDouble("DefaultHealth"));
+            Util.setHearts(player, plugin.getConfig().getDouble("DefaultHealth"));
             return;
         }
 
