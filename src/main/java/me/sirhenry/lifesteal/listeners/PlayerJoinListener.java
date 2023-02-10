@@ -27,16 +27,24 @@ public class PlayerJoinListener implements Listener {
             return;
         }
 
-        if(Data.get().getConfigurationSection("revive").contains(player.getUniqueId().toString())){
+        //revive players if necessary
+        if(Data.get().contains("revive." + player.getUniqueId())){
             player.setGameMode(GameMode.SURVIVAL);
-            player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(plugin.getConfig().getDouble("DefaultHealth"));
+            Util.setHearts(player, plugin.getConfig().getDouble("DefaultHealth"));
             if(player.getBedSpawnLocation() == null){
                 e.getPlayer().teleport(e.getPlayer().getWorld().getSpawnLocation());
             }
             else{
-                e.getPlayer().teleport(e.getPlayer().getBedSpawnLocation());
+                e.getPlayer().teleport(player.getBedSpawnLocation());
             }
             Data.get().set("revive." + player.getUniqueId(), null);
+            Data.save();
+        }
+        //soft revive players if necessary
+        if(Data.get().contains("softrevive." + player.getUniqueId())){
+            Util.setHearts(player, plugin.getConfig().getDouble("DefaultHealth"));
+            Data.get().set("softrevive." + player.getUniqueId(), null);
+            Data.save();
         }
 
     }

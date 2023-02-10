@@ -4,6 +4,7 @@ import me.sirhenry.lifesteal.commands.AddHeartsCommand;
 import me.sirhenry.lifesteal.commands.ResetCommand;
 import me.sirhenry.lifesteal.commands.ReviveCommand;
 import me.sirhenry.lifesteal.commands.WithdrawCommand;
+import me.sirhenry.lifesteal.commands.tabcompleters.ReviveTabCompleter;
 import me.sirhenry.lifesteal.items.HeartItem;
 import me.sirhenry.lifesteal.items.ReviveTotemItem;
 import me.sirhenry.lifesteal.listeners.GUIInteractListener;
@@ -18,16 +19,22 @@ public final class LifeSteal extends JavaPlugin {
     @Override
     public void onEnable() {
 
+        //register events
         getServer().getPluginManager().registerEvents(new PlayerKilledListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
         getServer().getPluginManager().registerEvents(new GUIInteractListener(), this);
 
+        //register commands
         getCommand("withdraw").setExecutor(new WithdrawCommand());
         getCommand("smpreset").setExecutor(new ResetCommand());
         getCommand("addhearts").setExecutor(new AddHeartsCommand());
         getCommand("revive").setExecutor(new ReviveCommand());
 
+        //register tab completers
+        getCommand("revive").setTabCompleter(new ReviveTabCompleter());
+
+        //set config defaults
         getConfig().addDefault("DefaultHealth", 20.0);
         getConfig().addDefault("HealthGainedOnKill", 2.0);
         getConfig().addDefault("LoseLifeIfNotKilledByPlayer", false);
@@ -57,12 +64,15 @@ public final class LifeSteal extends JavaPlugin {
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
 
+        //set data up
         Data.setup();
         Data.get().addDefault("revive", " ");
         Data.get().addDefault("dead", " ");
+        Data.get().addDefault("softrevive", " ");
         Data.get().options().copyDefaults(true);
         Data.save();
 
+        //register recipes
         Bukkit.addRecipe(HeartItem.getHeartRecipe());
         Bukkit.addRecipe(ReviveTotemItem.getReviveTotemRecipe());
 

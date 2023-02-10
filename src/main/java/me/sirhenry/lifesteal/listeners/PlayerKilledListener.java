@@ -53,16 +53,16 @@ public class PlayerKilledListener implements Listener {
         }
 
         //if LiseLifeIfNotKilledByPlayer is true, then make them lose health
-        else if(plugin.getConfig().getBoolean("LoseLifeIfNotKilledByPlayer")){victim.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(vHealth - plugin.getConfig().getDouble("HealthGainedOnKill"));}
+        else if(plugin.getConfig().getBoolean("LoseLifeIfNotKilledByPlayer")){Util.setHearts(victim, vHealth - plugin.getConfig().getDouble("HealthGainedOnKill"));}
 
         //If Victim looses all lives set gamemode to spectator or ban in applicable
         if(victim.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() <= 0){
             victim.setGameMode(GameMode.SPECTATOR);
-            victim.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(plugin.getConfig().getDouble("DefaultHealth"));
+            Util.setHearts(victim, plugin.getConfig().getDouble("DefaultHealth"));
             Data.get().set("dead." + victim.getUniqueId(), "");
             Data.save();
             if(plugin.getConfig().getBoolean("BanIfLoseAllLives")){
-                victim.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(plugin.getConfig().getDouble("DefaultHealth"));
+                Util.setHearts(victim, plugin.getConfig().getDouble("DefaultHealth"));
                 Bukkit.getBanList(BanList.Type.NAME).addBan(victim.getName(), ChatColor.RED + "You Lost all your lives!", null, null);
                 victim.kickPlayer(ChatColor.RED + "You Lost all your lives!");
                 Data.get().set("dead." + victim.getUniqueId(), "");

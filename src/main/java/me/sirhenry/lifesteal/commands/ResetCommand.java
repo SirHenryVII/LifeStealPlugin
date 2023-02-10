@@ -31,15 +31,18 @@ public class ResetCommand implements CommandExecutor {
 			p.sendMessage(ChatColor.RED + "You Do Not Have Permission to Use This Command. Permission Required: \"lifesteal.admin\"");
 			return true;
 		}
-		//Check if 1 arg
-		if(args.length != 1){
-			p.sendMessage(ChatColor.RED + "Usage: /smpreset");
+		//if Confirm
+		if(args.length == 1){
+			if(args[0].equalsIgnoreCase("confirm")){
+				SmpReset();
+			}
+			else{
+				p.sendMessage(ChatColor.RED + "Usage: /smpreset");
+			}
 			return true;
 		}
-		//if Confirm
-		if(args[0].equalsIgnoreCase("confirm")){
-			SmpReset();
-			return true;
+		else if(args.length > 1){
+			p.sendMessage(ChatColor.RED + "Usage: /smpreset");
 		}
 
 		//Send Confirmation message if needed
@@ -58,25 +61,35 @@ public class ResetCommand implements CommandExecutor {
 			//If player online reset them
 			if (Bukkit.getPlayer(uuid) != null) {
 				Player player = Bukkit.getPlayer(uuid);
-				player.setGameMode(GameMode.SURVIVAL);
 				Util.setHearts(player, plugin.getConfig().getDouble("DefaultHealth"));
-				//If player is fully dead tp them
+				//If player is fully dead tp them and set gamemode to survival
 				if(Data.get().contains("dead." + p.getUniqueId())){
 					if (player.getBedSpawnLocation() == null) {
 						player.teleport(player.getWorld().getSpawnLocation());
 					} else {
 						player.teleport(player.getBedSpawnLocation());
 					}
+					player.setGameMode(GameMode.SURVIVAL);
 				}
-			//If player is not online, put them on revive list if they are not already
-			} else if(Data.get().getConfigurationSection("revive").contains(p.getUniqueId().toString())){
-				Data.get().set("revive." + uuid, "");
+			//If player is not online
+			}else{
+				//if player is dead, then put on revive list (if not on it already)
+				if(Data.get().contains("dead." + p.getUniqueId()) && !Data.get().contains("revive." + p.getUniqueId())){
+					Data.get().set("revive." + uuid, " ");
+					Data.save();
+				}
+				//if player is not dead, just offline, add to softrevive list
+				if(!Data.get().contains("dead." + p.getUniqueId())){
+					Data.get().set("softrevive." + uuid, " ");
+					Data.save();
+				}
 			}
+
 
 		}
 
 		//Clear Dead List
-		Data.get().set("dead", null);
+		Data.get().set("dead", " ");
 		Data.save();
 
 		//send chat message
