@@ -42,8 +42,8 @@ public class PlayerJoinListener implements Listener {
         }
         //soft revive players if necessary
         if(Data.get().contains("softrevive." + player.getUniqueId())){
-            Util.setHearts(player, plugin.getConfig().getDouble("DefaultHealth"));
             Data.get().set("softrevive." + player.getUniqueId(), null);
+            Util.setHearts(player, plugin.getConfig().getDouble("DefaultHealth"));
             Data.save();
         }
 

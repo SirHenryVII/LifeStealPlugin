@@ -37,12 +37,14 @@ public class PlayerKilledListener implements Listener {
             //give killer health and drop heart item if required
             for(int i = 0; i < plugin.getConfig().getDouble("HealthGainedOnKill"); i += 2 ){
 
-
                 if(kHealth + i < plugin.getConfig().getDouble("MaxHealth")){
                     Util.setHearts(killer, Util.getHearts(killer) + 2.0);
                     continue;
                 }
-                victim.getWorld().dropItemNaturally(victim.getLocation(), HeartItem.getItem());
+
+                if(plugin.getConfig().getBoolean("DropHeartsOnDeath")){
+                    victim.getWorld().dropItemNaturally(victim.getLocation(), HeartItem.getItem());
+                }
             }
 
             //custom death message

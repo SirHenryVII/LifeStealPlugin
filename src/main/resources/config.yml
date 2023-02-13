@@ -1,8 +1,24 @@
+#IMPORTANT NOTE: WHEN EDITING ANYTHING TO DO WITH NUMBER OF HEARTS, 1=HALF A HEART
+
+# Default Health all players spawn with
 DefaultHealth: 20.0
+
+# Amount of Health gained on kill and lost on death
 HealthGainedOnKill: 2.0
+
+# Whether a heart is taken if a player dies due to something other than a player
 LoseLifeIfNotKilledByPlayer: false
+
+# Whether server bans a player if they lose all lives, or they go into spectator mode
 BanIfLoseAllLives: false
+
+# The Maximum amount of health a player can have
 MaxHealth: 40.0
+
+# Whether a player drops heart item(s) on death if killer already has max hearts
+DropHeartsOnDeath: true
+
+# Crafting Recipe for Heart Item
 HeartRecipe:
   Slot0: DIAMOND_BLOCK
   Slot1: OBSIDIAN
@@ -13,6 +29,8 @@ HeartRecipe:
   Slot6: DIAMOND_BLOCK
   Slot7: OBSIDIAN
   Slot8: DIAMOND_BLOCK
+
+# Crafting Recipe for Revive Totem Item
 ReviveTotemRecipe:
   Slot0: TOTEM_OF_UNDYING
   Slot1: DIAMOND_BLOCK

@@ -35,7 +35,8 @@ public class PlayerInteractListener implements Listener {
             //Revive Totem Interact
             else if(e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.TOTEM_OF_UNDYING) && e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("§aRevive Totem")){
                 if(!(Data.get().getConfigurationSection("dead") == null)){
-                    Util.setRevivePage(1, e.getPlayer());}
+                    Util.setRevivePage(1, e.getPlayer());
+                }
             }
 
         }

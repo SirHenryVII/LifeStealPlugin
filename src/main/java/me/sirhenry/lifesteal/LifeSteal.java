@@ -4,7 +4,10 @@ import me.sirhenry.lifesteal.commands.AddHeartsCommand;
 import me.sirhenry.lifesteal.commands.ResetCommand;
 import me.sirhenry.lifesteal.commands.ReviveCommand;
 import me.sirhenry.lifesteal.commands.WithdrawCommand;
+import me.sirhenry.lifesteal.commands.tabcompleters.AddHeartsTabCompleter;
+import me.sirhenry.lifesteal.commands.tabcompleters.ResetTabCompleter;
 import me.sirhenry.lifesteal.commands.tabcompleters.ReviveTabCompleter;
+import me.sirhenry.lifesteal.commands.tabcompleters.WithdrawTabCompleter;
 import me.sirhenry.lifesteal.items.HeartItem;
 import me.sirhenry.lifesteal.items.ReviveTotemItem;
 import me.sirhenry.lifesteal.listeners.GUIInteractListener;
@@ -32,6 +35,9 @@ public final class LifeSteal extends JavaPlugin {
         getCommand("revive").setExecutor(new ReviveCommand());
 
         //register tab completers
+        getCommand("withdraw").setTabCompleter(new WithdrawTabCompleter());
+        getCommand("smpreset").setTabCompleter(new ResetTabCompleter());
+        getCommand("addhearts").setTabCompleter(new AddHeartsTabCompleter());
         getCommand("revive").setTabCompleter(new ReviveTabCompleter());
 
         //set config defaults

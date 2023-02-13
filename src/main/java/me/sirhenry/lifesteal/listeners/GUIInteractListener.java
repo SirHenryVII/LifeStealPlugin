@@ -57,7 +57,7 @@ public class GUIInteractListener implements Listener {
         if(Bukkit.getPlayer(name) != null){
             e.getView().close();
             Bukkit.getPlayer(name).setGameMode(GameMode.SURVIVAL);
-            Bukkit.getPlayer(name).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(plugin.getConfig().getDouble("DefaultHealth"));
+            Util.setHearts(Bukkit.getPlayer(name), plugin.getConfig().getDouble("DefaultHealth"));
             if(Bukkit.getPlayer(name).getBedSpawnLocation() == null){
                 Bukkit.getPlayer(name).teleport(Bukkit.getPlayer(name).getWorld().getSpawnLocation());
             }

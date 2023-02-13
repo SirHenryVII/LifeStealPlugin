@@ -23,7 +23,6 @@ public class ReviveTabCompleter implements TabCompleter {
                 list.add(Bukkit.getPlayer(UUID.fromString(uuid)).getDisplayName());
             }
         }
-
         return list;
     }
 }
