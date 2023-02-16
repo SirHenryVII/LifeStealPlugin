@@ -46,6 +46,7 @@ public final class LifeSteal extends JavaPlugin {
         getConfig().addDefault("LoseLifeIfNotKilledByPlayer", false);
         getConfig().addDefault("BanIfLoseAllLives", false);
         getConfig().addDefault("MaxHealth", 40.0);
+        getConfig().addDefault("DropHeartsOnDeath", true);
 
         getConfig().addDefault("HeartRecipe.Slot0", "DIAMOND_BLOCK");
         getConfig().addDefault("HeartRecipe.Slot1", "OBSIDIAN");

@@ -21,9 +21,9 @@ public class GUIInteractListener implements Listener {
 
 
         //Check if Correct Inventory
-        if(!e.getView().getTitle().equals("Select a Player:")) {return;}
+        if(!e.getView().getTitle().equals("Select a Player:")) return;
         //Check if player is even clicking on an item
-        if(e.getCurrentItem() == null) {return;}
+        if(e.getCurrentItem() == null) return;
         //check if correct inventory (2)
         if(!e.getClickedInventory().equals(e.getView().getTopInventory())) {e.setCancelled(true); return;}
         //Check if Correct Action

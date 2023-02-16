@@ -25,13 +25,14 @@ public class WithdrawCommand implements CommandExecutor {
         int HeartNum;
         Player Receiver;
         Player player;
+
         //check if console is running command
         if(!(sender instanceof Player)) {
-            System.out.println("The Console Cannot Run This Command");
+            sender.sendMessage("The Console Cannot Run This Command");
             return true;
         }
         //check if player has permissions
-        if(!sender.hasPermission("lifesteal.withdraw") || !sender.hasPermission("lifesteal.admin")){
+        if(!sender.hasPermission("lifesteal.withdraw") && !sender.hasPermission("lifesteal.mod") && !sender.hasPermission("lifesteal.admin")){
             sender.sendMessage(ChatColor.RED + "You Do Not Have Permission to Use This Command\nPermission Required: \"lifesteal.withdraw\"");
             return true;
         }

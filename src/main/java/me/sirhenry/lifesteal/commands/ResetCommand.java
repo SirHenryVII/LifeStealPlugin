@@ -24,11 +24,10 @@ public class ResetCommand implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
 	{
-		Player p = ((Player) sender);
 
 		//Check if player has permission
-		if(!p.hasPermission("lifesteal.admin")) {
-			p.sendMessage(ChatColor.RED + "You Do Not Have Permission to Use This Command. Permission Required: \"lifesteal.admin\"");
+		if(!sender.hasPermission("lifesteal.admin")) {
+			sender.sendMessage(ChatColor.RED + "You Do Not Have Permission to Use This Command. Permission Required: \"lifesteal.admin\"");
 			return true;
 		}
 		//if Confirm
@@ -37,12 +36,12 @@ public class ResetCommand implements CommandExecutor {
 				SmpReset();
 			}
 			else{
-				p.sendMessage(ChatColor.RED + "Usage: /smpreset");
+				sender.sendMessage(ChatColor.RED + "Usage: /smpreset");
 			}
 			return true;
 		}
 		else if(args.length > 1){
-			p.sendMessage(ChatColor.RED + "Usage: /smpreset");
+			sender.sendMessage(ChatColor.RED + "Usage: /smpreset");
 		}
 
 		//Send Confirmation message if needed
