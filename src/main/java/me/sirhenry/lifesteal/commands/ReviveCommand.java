@@ -22,9 +22,9 @@ public class ReviveCommand implements CommandExecutor {
 
         Plugin plugin = LifeSteal.getPlugin(LifeSteal.class);
 
-        //check permissions
-        if(!sender.hasPermission("lifesteal.mod") && !sender.hasPermission("lifesteal.admin")) {
-            sender.sendMessage(ChatColor.RED + "You Do Not Have Permission to Use This Command\nPermission Required: \"lifesteal.mod\"");
+        //if nobody dead, cancel command
+        if(Data.get().getConfigurationSection("dead").equals(" ")){
+            sender.sendMessage(ChatColor.RED + "There is no One Currently Dead");
             return true;
         }
 

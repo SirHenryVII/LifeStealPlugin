@@ -23,8 +23,8 @@ public class WithdrawTabCompleter implements TabCompleter {
 
         //for first arg, put all valid number inputs (not accounting for MaxHealth)
         if(args.length == 1){
-            for(int i = (int) Util.getHearts(player); i - 2 != 0; i--){
-                list.add(Integer.toString(i));
+            for(int i = (int) Util.getHearts(player)-2; i!=0; i-=2){
+                list.add(Integer.toString(i/2));
             }
         }
 

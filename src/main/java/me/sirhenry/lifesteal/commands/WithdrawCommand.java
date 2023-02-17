@@ -31,24 +31,22 @@ public class WithdrawCommand implements CommandExecutor {
             sender.sendMessage("The Console Cannot Run This Command");
             return true;
         }
-        //check if player has permissions
-        if(!sender.hasPermission("lifesteal.withdraw") && !sender.hasPermission("lifesteal.mod") && !sender.hasPermission("lifesteal.admin")){
-            sender.sendMessage(ChatColor.RED + "You Do Not Have Permission to Use This Command\nPermission Required: \"lifesteal.withdraw\"");
-            return true;
-        }
-        //check if correct number of args are inputted
-        else if (args.length != 2) {
 
-            sender.sendMessage(ChatColor.RED + "Usage : /withdraw 10 Player");
-            return true;
-        }
+        //check if correct number of args are inputted
+        else if (args.length != 2) return false;
+
         //set heart var
         try {
+            //make sure heart num is whole number
+            if(Double.parseDouble(args[0])%1 != 0){
+                sender.sendMessage(ChatColor.RED + "You can Only Use Whole Numbers");
+                return true;
+            }
             HeartNum = Integer.parseInt(args[0])*2;
         }catch(NumberFormatException e) {
-            sender.sendMessage(ChatColor.RED + "Usage: /withdraw 10 Player");
-            return true;
+            return false;
         }
+
         //set player var
         try{
             Receiver = Bukkit.getServer().getPlayer(args[1]);
@@ -57,17 +55,21 @@ public class WithdrawCommand implements CommandExecutor {
             sender.sendMessage(ChatColor.RED + "Usage: /withdraw 10 Player\nThat player may not be online.");
             return true;
         }
+
         //check if player used negative numbers
         if (Integer.parseInt(args[0]) <= 0) {
             sender.sendMessage(ChatColor.RED + "You Cannot use Negative Numbers");
             return true;
         }
+
         player = (Player) sender;
+
         //make sure player can't kill themselves
         if(Util.getHearts(player) - HeartNum < 2) {
             sender.sendMessage(ChatColor.RED + "You do not have Enough Hearts to Perform this Action");
             return true;
         }
+
         //make sure player doesn't violate max hearts
         if(Util.getHearts(Receiver) + HeartNum > plugin.getConfig().getDouble("MaxHealth")) {
             sender.sendMessage(ChatColor.RED + "This Action Violates the \"Max Hearts\" Parameter.");

@@ -5,12 +5,52 @@ api-version: 1.16
 authors: [ SirHenry ]
 description: Allows Players to Steal Hearts from Each Other by Killing.
 website: https://youtube.com/sirhenry
+
 commands:
+
   withdraw:
     description: Allows you to give your hearts to other people
+    permission: lifesteal.withdraw
+    permission-message: "§cYou Do Not Have Permission to Use This Command"
+    usage: "§cUsage: /withdraw [Number of Hearts] [Player]"
+
   smpreset:
-    description: Will reset all of the Hearts on the server.
+    description: Will reset all of the Hearts on the server
+    permission: lifesteal.smpreset
+    permission-message: "§cYou Do Not Have Permission to Use This Command"
+    usage: "§cUsage: /smpreset"
+
   revive:
     description: Will revive a Player and set them at Default health
+    permission: lifesteal.revive
+    permission-message: "§cYou Do Not Have Permission to Use This Command"
+    usage: "§cUsage: /revive [Player]"
+
   addhearts:
     description: Can Add or Remove Hearts from Players
+    permission: lifesteal.addhearts
+    permission-message: "§cYou Do Not Have Permission to Use This Command"
+    usage: "§cUsage: /addhearts [Number of Hearts to Add/Subtract] [Player]"
+
+permissions:
+
+  lifesteal.*:
+    description: Allows player to use all commands
+    children:
+      lifesteal.smpreset: true
+      lifesteal.addhearts: true
+      lifesteal.revive: true
+      lifesteal.withdraw: true
+
+  lifesteal.smpreset:
+    description: Allows player to use /smpreset
+
+  lifesteal.addhearts:
+    description: Allows player to use /addhearts
+
+  lifesteal.revive:
+    description: Allows player to use /revive
+
+  lifesteal.withdraw:
+    description: Allows player to use /withdraw
+    default: true

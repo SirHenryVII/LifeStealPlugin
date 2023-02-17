@@ -18,22 +18,21 @@ public class AddHeartsCommand implements CommandExecutor {
         Player Receiver;
         Plugin plugin = LifeSteal.getPlugin(LifeSteal.class);
 
-        //Check Permissions
-        if(!sender.hasPermission("lifesteal.mod") && !sender.hasPermission("lifesteal.admin")){
-            sender.sendMessage(ChatColor.RED + "You Do Not Have Permission to Use This Command\nPermission Required: \"lifesteal.mod\"");
-            return true;
-        }
+
         //check for Correct Number of Args
         if(args.length != 2){
-            sender.sendMessage(ChatColor.RED + "Usage: /AddHearts 10 Player");
-            return true;
+            return false;
         }
         //Set HeartNum var
         try{
+            //make sure heart num is whole number
+            if(Double.parseDouble(args[0])%1 != 0){
+                sender.sendMessage(ChatColor.RED + "You can Only Use Whole Numbers");
+                return true;
+            }
             HeartNum = Integer.parseInt(args[0])*2;
         }catch(NumberFormatException ex){
-            sender.sendMessage(ChatColor.RED + "Usage: /AddHearts 10 Player");
-            return true;
+            return false;
         }
         //set receiver var
         try{

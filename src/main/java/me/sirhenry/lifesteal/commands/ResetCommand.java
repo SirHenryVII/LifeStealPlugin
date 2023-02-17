@@ -25,23 +25,18 @@ public class ResetCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
 	{
 
-		//Check if player has permission
-		if(!sender.hasPermission("lifesteal.admin")) {
-			sender.sendMessage(ChatColor.RED + "You Do Not Have Permission to Use This Command. Permission Required: \"lifesteal.admin\"");
-			return true;
-		}
 		//if Confirm
 		if(args.length == 1){
 			if(args[0].equalsIgnoreCase("confirm")){
 				SmpReset();
+				return true;
 			}
 			else{
-				sender.sendMessage(ChatColor.RED + "Usage: /smpreset");
+				return false;
 			}
-			return true;
 		}
 		else if(args.length > 1){
-			sender.sendMessage(ChatColor.RED + "Usage: /smpreset");
+			return false;
 		}
 
 		//Send Confirmation message if needed
