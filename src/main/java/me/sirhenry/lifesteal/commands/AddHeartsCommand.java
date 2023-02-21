@@ -23,6 +23,7 @@ public class AddHeartsCommand implements CommandExecutor {
         if(args.length != 2){
             return false;
         }
+
         //Set HeartNum var
         try{
             //make sure heart num is whole number
@@ -34,6 +35,7 @@ public class AddHeartsCommand implements CommandExecutor {
         }catch(NumberFormatException ex){
             return false;
         }
+
         //set receiver var
         try{
             Receiver = Bukkit.getPlayer(args[1]);
@@ -41,6 +43,7 @@ public class AddHeartsCommand implements CommandExecutor {
             sender.sendMessage(ChatColor.RED + "Usage: /AddHearts 10 Player\nThat player may not be online.");
             return true;
         }
+
         //check if violates max health
         if(Util.getHearts(Receiver) + HeartNum > plugin.getConfig().getDouble("MaxHealth")){
             sender.sendMessage(ChatColor.RED + "This Action Violates the \"Max Hearts\" Parameter.");

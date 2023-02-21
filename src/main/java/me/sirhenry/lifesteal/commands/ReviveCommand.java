@@ -23,7 +23,7 @@ public class ReviveCommand implements CommandExecutor {
         Plugin plugin = LifeSteal.getPlugin(LifeSteal.class);
 
         //if nobody dead, cancel command
-        if(Data.get().getConfigurationSection("dead").equals(" ")){
+        if(Data.get().getConfigurationSection("dead").equals("")){
             sender.sendMessage(ChatColor.RED + "There is no One Currently Dead");
             return true;
         }
@@ -31,6 +31,9 @@ public class ReviveCommand implements CommandExecutor {
         //if there is player arg and player exists and is dead, then revive them
         if(args.length == 1 && Data.get().contains("dead." + Bukkit.getOfflinePlayer(args[0]).getUniqueId())){
             OfflinePlayer dead = Bukkit.getOfflinePlayer(args[0]);
+
+            //remove from dead list
+            Data.get().set("dead." + dead.getUniqueId(), null);
 
             //if player is online, reset them
             if(Bukkit.getPlayer(args[0]) != null){
