@@ -11,11 +11,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
+import java.util.UUID;
+
 public class AddHeartsCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         int HeartNum;
-        Player Receiver;
+        Player Receiver = null;
         Plugin plugin = LifeSteal.getPlugin(LifeSteal.class);
 
 
@@ -23,6 +25,7 @@ public class AddHeartsCommand implements CommandExecutor {
         if(args.length != 2){
             return false;
         }
+
         //Set HeartNum var
         try{
             //make sure heart num is whole number
@@ -34,13 +37,11 @@ public class AddHeartsCommand implements CommandExecutor {
         }catch(NumberFormatException ex){
             return false;
         }
-        //set receiver var
-        try{
-            Receiver = Bukkit.getPlayer(args[1]);
-        }catch(Exception ex){
-            sender.sendMessage(ChatColor.RED + "Usage: /AddHearts 10 Player\nThat player may not be online.");
-            return true;
-        }
+
+        //set player var
+        Receiver = Bukkit.getPlayer(args[1]);
+        if(Receiver == null) return false;
+
         //check if violates max health
         if(Util.getHearts(Receiver) + HeartNum > plugin.getConfig().getDouble("MaxHealth")){
             sender.sendMessage(ChatColor.RED + "This Action Violates the \"Max Hearts\" Parameter.");

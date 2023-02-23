@@ -30,9 +30,7 @@ public class WithdrawTabCompleter implements TabCompleter {
 
         //for second arg, just list all online players
         else if(args.length == 2){
-            for(Player p : Bukkit.getOnlinePlayers()){
-                list.add(p.getDisplayName());
-            }
+            return null;
         }
         return list;
     }

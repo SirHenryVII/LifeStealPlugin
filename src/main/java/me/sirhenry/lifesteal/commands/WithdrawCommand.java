@@ -15,6 +15,7 @@ import org.bukkit.plugin.Plugin;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Objects;
+import java.util.UUID;
 
 public class WithdrawCommand implements CommandExecutor {
 	Plugin plugin = LifeSteal.getPlugin(LifeSteal.class);
@@ -23,7 +24,7 @@ public class WithdrawCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         int HeartNum;
-        Player Receiver;
+        Player Receiver = null;
         Player player;
 
         //check if console is running command
@@ -31,9 +32,8 @@ public class WithdrawCommand implements CommandExecutor {
             sender.sendMessage("The Console Cannot Run This Command");
             return true;
         }
-
-        //check if correct number of args are inputted
         else if (args.length != 2) return false;
+        //check if correct number of args are inputted
 
         //set heart var
         try {
@@ -48,13 +48,12 @@ public class WithdrawCommand implements CommandExecutor {
         }
 
         //set player var
-        try{
-            Receiver = Bukkit.getServer().getPlayer(args[1]);
+        for(Player p : Bukkit.getOnlinePlayers()){
+            if(p.getUniqueId().equals(UUID.fromString(args[1]))){
+                Receiver = p;
+            }
         }
-        catch(Exception ex) {
-            sender.sendMessage(ChatColor.RED + "Usage: /withdraw 10 Player\nThat player may not be online.");
-            return true;
-        }
+        if(Receiver == null) return false;
 
         //check if player used negative numbers
         if (Integer.parseInt(args[0]) <= 0) {

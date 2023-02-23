@@ -19,15 +19,15 @@ public class ReviveTabCompleter implements TabCompleter {
 
         //add tab completer for everyone on dead list
         if(args.length == 1){
-            for(String uuid : Data.get().getConfigurationSection("dead").getKeys(false)){
-                list.add(Bukkit.getPlayer(UUID.fromString(uuid)).getDisplayName());
+            try{
+                for(String uuid : Data.get().getConfigurationSection("dead").getKeys(false)){
+                    list.add(Bukkit.getPlayer(UUID.fromString(uuid)).getDisplayName());
+                }
+            }catch(NullPointerException ex){
+                // then just return an empty list
             }
-        }
-        //if list in empty, return null
-        if(list.isEmpty()){
-            return null;
-        }
 
+        }
         return list;
     }
 }

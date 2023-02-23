@@ -23,7 +23,9 @@ public class ReviveCommand implements CommandExecutor {
         Plugin plugin = LifeSteal.getPlugin(LifeSteal.class);
 
         //if nobody dead, cancel command
-        if(Data.get().getConfigurationSection("dead").equals(" ")){
+        try{
+            Data.get().getConfigurationSection("dead").getKeys(false);
+        }catch(NullPointerException ex){
             sender.sendMessage(ChatColor.RED + "There is no One Currently Dead");
             return true;
         }
