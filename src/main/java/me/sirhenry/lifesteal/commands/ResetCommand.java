@@ -15,6 +15,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import sun.security.krb5.Confounder;
 
 import java.awt.*;
 import java.util.UUID;
@@ -44,6 +45,7 @@ public class ResetCommand implements CommandExecutor {
 		ConfirmationMessage.setBold(true);
 		ConfirmationMessage.setColor(net.md_5.bungee.api.ChatColor.GREEN);
 		ConfirmationMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/smpreset confirm"));
+		sender.spigot().sendMessage(ConfirmationMessage);
 		return true;
 	}
 
