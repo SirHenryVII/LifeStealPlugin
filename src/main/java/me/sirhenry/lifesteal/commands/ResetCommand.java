@@ -41,11 +41,16 @@ public class ResetCommand implements CommandExecutor {
 		}
 
 		//Send Confirmation message if needed
-		TextComponent ConfirmationMessage = new TextComponent("Click Here to Confirm the SMP Reset");
-		ConfirmationMessage.setBold(true);
-		ConfirmationMessage.setColor(net.md_5.bungee.api.ChatColor.GREEN);
-		ConfirmationMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/smpreset confirm"));
-		sender.spigot().sendMessage(ConfirmationMessage);
+		if(sender instanceof Player){
+			TextComponent ConfirmationMessage = new TextComponent("Click Here to Confirm the SMP Reset");
+			ConfirmationMessage.setBold(true);
+			ConfirmationMessage.setColor(net.md_5.bungee.api.ChatColor.GREEN);
+			ConfirmationMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/smpreset confirm"));
+			sender.spigot().sendMessage(ConfirmationMessage);
+		}
+		else{
+			sender.sendMessage(ChatColor.GREEN + "Please Type \"/smpreset confirm\" to Reset the SMP");
+		}
 		return true;
 	}
 

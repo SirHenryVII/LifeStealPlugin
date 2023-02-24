@@ -17,9 +17,7 @@ public class AddHeartsTabCompleter implements TabCompleter {
 
         //if on second arg, list all players, else do nothing
         if(args.length == 2){
-            for(Player p : Bukkit.getOnlinePlayers()){
-                list.add(p.getDisplayName());
-            }
+            return null;
         }
 
         return list;

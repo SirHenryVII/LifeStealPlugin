@@ -24,7 +24,7 @@ public class WithdrawCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         int HeartNum;
-        Player Receiver = null;
+        Player Receiver;
         Player player;
 
         //check if console is running command
@@ -48,11 +48,7 @@ public class WithdrawCommand implements CommandExecutor {
         }
 
         //set player var
-        for(Player p : Bukkit.getOnlinePlayers()){
-            if(p.getUniqueId().equals(UUID.fromString(args[1]))){
-                Receiver = p;
-            }
-        }
+        Receiver = Bukkit.getPlayer(args[1]);
         if(Receiver == null) return false;
 
         //check if player used negative numbers

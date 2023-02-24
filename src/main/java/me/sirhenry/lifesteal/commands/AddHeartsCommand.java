@@ -48,6 +48,12 @@ public class AddHeartsCommand implements CommandExecutor {
             return true;
         }
 
+        //Check if health goes below zero
+        if(Util.getHearts(Receiver) + HeartNum < 1){
+            sender.sendMessage(ChatColor.RED + "This Action Cannot be Performed Due to the Minimum Amount of Health a Player can Have.");
+            return true;
+        }
+
         Util.setHearts(Receiver, Util.getHearts(Receiver) + HeartNum);
 
         return true;
